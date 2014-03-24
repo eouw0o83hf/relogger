@@ -9,5 +9,10 @@ namespace Relogger
 {
     public static class RegistrationExtensions
     {
+        public static ComponentRegistration<T> Relog<T>(this ComponentRegistration<T> registration)
+            where T : class
+        {
+            return registration.Interceptors<ReloggerInterceptor>();
+        }
     }
 }

@@ -14,8 +14,7 @@ namespace Relogger.Console
         static void Main(string[] args)
         {
             var container = new WindsorContainer();
-            var installer = new Installer();
-            container.Install(installer);
+            container.Install(new ReloggerInstaller(), new Installer());
 
             var target = container.Resolve<TargetClass>();
 
@@ -31,11 +30,8 @@ namespace Relogger.Console
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<ReloggerInterceptor>()
-                                        .LifestyleSingleton());
-
             container.Register(Component.For<TargetClass>()
-                                        .Interceptors<ReloggerInterceptor>()
+                                        .Relog()
                                         .LifestyleTransient());
         }
     }
